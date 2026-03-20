@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-boutique-bg: #F9F8F6;
+  --color-boutique-surface: #E5E0D8;
+  --color-boutique-ink: #2A2A2A;
+  --color-boutique-accent: #A38068;
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+}
+
+body {
+  background: var(--color-boutique-bg);
+  color: var(--color-boutique-ink);
+}

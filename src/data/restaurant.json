@@ -1,0 +1,76 @@
+{
+  "name": "La Signora - Ristorante Boutique",
+  "phone": "+351 913 860 397",
+  "address": "Rua da Alegria, 123, 4000-000 Porto, Portugal",
+  "hours": [
+    { "days": "Segunda a Quinta", "time": "12:00 - 15:00, 19:00 - 23:00" },
+    { "days": "Sexta e Sábado", "time": "12:00 - 15:00, 19:00 - 00:00" },
+    { "days": "Domingo", "time": "Encerrado" }
+  ],
+  "socials": {
+    "instagram": "https://instagram.com/lasignora",
+    "facebook": "https://facebook.com/lasignora"
+  },
+  "menu": [
+    {
+      "category": "Antipasti",
+      "items": [
+        {
+          "name": "Burrata al Tartufo",
+          "description": "Burrata fresca com creme de trufa negra e focaccia caseira.",
+          "price": "14"
+        },
+        {
+          "name": "Carpaccio di Manzo",
+          "description": "Lâminas finas de novilho, rúcula, parmesão e azeite trufado.",
+          "price": "16"
+        }
+      ]
+    },
+    {
+      "category": "Pizze d'Autore",
+      "items": [
+        {
+          "name": "A Signora",
+          "description": "A nossa pizza de assinatura. Mozzarella di bufala, presunto San Daniele, rúcula fresca e tomates semi-secos.",
+          "price": "22"
+        },
+        {
+          "name": "La Tartufo Elegante",
+          "description": "Base branca, mozzarella, cogumelos porcini e lâminas de trufa negra fresca.",
+          "price": "26"
+        }
+      ]
+    },
+    {
+      "category": "Paste Fresche",
+      "items": [
+        {
+          "name": "Tagliolini Al Gambero Rosso",
+          "description": "Massa fresca salteada com bisque de marisco e camarão vermelho de Mazara del Vallo.",
+          "price": "28"
+        },
+        {
+          "name": "Ravioli di Zucca",
+          "description": "Raviolis recheados com abóbora assada, manteiga e sálvia, finalizados com amaretti.",
+          "price": "20"
+        }
+      ]
+    },
+    {
+      "category": "I Dolci",
+      "items": [
+        {
+          "name": "Tiramisu della Nonna",
+          "description": "A receita original de família, com café espresso autêntico e queijo mascarpone.",
+          "price": "10"
+        },
+        {
+          "name": "Pannacotta al Pistacchio",
+          "description": "Pannacotta leve, com pralinê de pistáchio de Bronte D.O.P.",
+          "price": "12"
+        }
+      ]
+    }
+  ]
+}
