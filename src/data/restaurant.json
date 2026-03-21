@@ -1,15 +1,14 @@
 {
   "name": "La Signora - Ristorante Boutique",
   "phone": "+351 913 860 397",
-  "address": "Rua da Alegria, 123, 4000-000 Porto, Portugal",
+  "address": "Av. Comendador Henrique Amorim n º 243, 4535-342 Santa Maria de Lamas",
   "hours": [
     { "days": "Segunda a Quinta", "time": "12:00 - 15:00, 19:00 - 23:00" },
     { "days": "Sexta e Sábado", "time": "12:00 - 15:00, 19:00 - 00:00" },
     { "days": "Domingo", "time": "Encerrado" }
   ],
   "socials": {
-    "instagram": "https://instagram.com/lasignora",
-    "facebook": "https://facebook.com/lasignora"
+    "instagram": "https://www.instagram.com/lasignoraa_/"
   },
   "menu": [
     {

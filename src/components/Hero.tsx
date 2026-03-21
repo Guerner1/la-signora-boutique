@@ -10,7 +10,7 @@ export default function Hero() {
       <div 
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: "linear-gradient(rgba(42, 42, 42, 0.4), rgba(42, 42, 42, 0.6)), url('/images/foto_fachada.png')",
+          backgroundImage: "linear-gradient(rgba(42, 42, 42, 0.4), rgba(42, 42, 42, 0.6)), url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=2000&auto=format&fit=crop')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

@@ -71,7 +71,6 @@ export default function Footer() {
         </p>
         <div className="flex gap-6 font-sans text-xs tracking-widest uppercase opacity-70">
           <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-boutique-accent)] transition-colors">Instagram</a>
-          <a href={socials.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-boutique-accent)] transition-colors">Facebook</a>
         </div>
       </div>
     </footer>
