@@ -39,6 +39,7 @@ export default function Navbar() {
           <Link href="/menu" className={`hover:text-[var(--color-boutique-accent)] transition-colors ${pathname === '/menu' ? 'text-[var(--color-boutique-accent)] border-b border-[var(--color-boutique-accent)]' : ''}`}>O Menu</Link>
           <Link href="/historia" className={`hover:text-[var(--color-boutique-accent)] transition-colors ${pathname === '/historia' ? 'text-[var(--color-boutique-accent)] border-b border-[var(--color-boutique-accent)]' : ''}`}>A Nossa Essência</Link>
           <Link href="/reservas" className={`hover:text-[var(--color-boutique-accent)] transition-colors ${pathname === '/reservas' ? 'text-[var(--color-boutique-accent)] border-b border-[var(--color-boutique-accent)]' : ''}`}>Reservas</Link>
+          <Link href="/takeaway" className={`hover:text-[var(--color-boutique-accent)] transition-colors ${pathname === '/takeaway' ? 'text-[var(--color-boutique-accent)] border-b border-[var(--color-boutique-accent)]' : ''}`}>Take Away</Link>
           <Link href="/experiencias" className={`hover:text-[var(--color-boutique-accent)] transition-colors ${pathname === '/experiencias' ? 'text-[var(--color-boutique-accent)] border-b border-[var(--color-boutique-accent)]' : ''}`}>Experiências</Link>
         </div>
 

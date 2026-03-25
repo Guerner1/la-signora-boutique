@@ -7,6 +7,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Calendar, Users, ArrowRight, MessageCircle } from "lucide-react";
+import restaurantData from "@/data/restaurant.json";
 
 export default function ReservasPage() {
   return (
@@ -61,7 +62,7 @@ export default function ReservasPage() {
           </p>
           
           <a
-            href="https://wa.me/351912345678" // Mudar para o numero real
+            href={`https://wa.me/${restaurantData.phone.replace(/\D/g, '')}`}
             target="_blank"
             rel="noopener noreferrer"
             className="relative z-10 inline-flex items-center justify-center w-full gap-3 bg-[var(--color-boutique-accent)] text-[var(--color-boutique-ink)] font-medium px-8 py-4 rounded-sm uppercase tracking-widest text-sm hover:bg-white transition-colors duration-300"
@@ -72,8 +73,11 @@ export default function ReservasPage() {
 
           <div className="mt-10 relative z-10 border-t border-[var(--color-boutique-ink)]/10 pt-6">
             <p className="text-xs uppercase tracking-widest text-[var(--color-boutique-accent)] mb-2">Horário de Funcionamento</p>
-            <p className="text-sm font-light opacity-70">Terça a Domingo: 12h00 - 15h00 | 19h00 - 23h00</p>
-            <p className="text-sm font-light opacity-70 mt-1">Encerra à Segunda-feira.</p>
+            {restaurantData.hours.map((hour, idx) => (
+              <p key={idx} className={`text-sm font-light opacity-70 ${idx < restaurantData.hours.length - 1 ? "mb-1" : ""}`}>
+                {hour.time === "Encerrado" ? `Encerra ao ${hour.days}.` : `${hour.days}: ${hour.time.replace(/:/g, "h").replace(/, /g, " | ")}`}
+              </p>
+            ))}
           </div>
         </motion.div>
 

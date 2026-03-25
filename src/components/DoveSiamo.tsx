@@ -1,8 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import restaurantData from "@/data/restaurant.json";
 
 export default function DoveSiamo() {
+  const addressQuery = encodeURIComponent(restaurantData.address);
+
   return (
     <section id="dove-siamo" className="py-24 md:py-32 px-6 lg:px-12 max-w-7xl mx-auto bg-[var(--color-boutique-bg)]">
       <motion.div
@@ -17,8 +20,12 @@ export default function DoveSiamo() {
         </h2>
         <div className="w-16 h-px bg-[var(--color-boutique-accent)] mx-auto mb-10"></div>
         <p className="font-sans text-[var(--color-boutique-ink)] opacity-80 max-w-md mx-auto">
-          Av. Comendador Henrique Amorim nº 243, <br />
-          4535-342 Santa Maria de Lamas
+          {restaurantData.address.split(',').map((item, i, arr) => (
+            <span key={i}>
+              {item.trim()}
+              {i < arr.length - 1 && <>, <br /></>}
+            </span>
+          ))}
         </p>
       </motion.div>
 
@@ -27,18 +34,44 @@ export default function DoveSiamo() {
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1 }}
         viewport={{ once: true }}
-        className="w-full h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-2xl border-4 border-white/10"
+        className="w-full h-[300px] md:h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-2xl border-4 border-white/10"
       >
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3008.2039774640956!2d-8.5693059!3d40.9799086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd238712da2a0333%3A0x6bba46c5ecf00d!2sAv.%20Comendador%20Henrique%20Amorim%20243%2C%204535-342%20Santa%20Maria%20de%20Lamas!5e0!3m2!1spt-PT!2spt!4v1700000000000!5m2!1spt-PT!2spt"
+          src={`https://maps.google.com/maps?q=${addressQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
           width="100%"
           height="100%"
           style={{ border: 0 }}
           allowFullScreen
           loading="lazy"
+          title="Localização do Restaurante no Google Maps"
           referrerPolicy="no-referrer-when-downgrade"
           className="grayscale-[30%] contrast-125 opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
         />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        viewport={{ once: true }}
+        className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6"
+      >
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${addressQuery}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center bg-[var(--color-boutique-accent)] text-[var(--color-boutique-bg)] border border-[var(--color-boutique-accent)] font-sans text-sm uppercase tracking-widest px-8 py-4 hover:bg-transparent hover:text-[var(--color-boutique-accent)] transition-all cursor-pointer w-full sm:w-auto text-center"
+        >
+          Como Chegar
+        </a>
+        <a
+          href={`https://www.google.com/maps/search/?api=1&query=${addressQuery}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center bg-transparent text-[var(--color-boutique-ink)] border border-[var(--color-boutique-ink)]/20 font-sans text-sm uppercase tracking-widest px-8 py-4 hover:border-[var(--color-boutique-accent)] hover:text-[var(--color-boutique-accent)] transition-all cursor-pointer w-full sm:w-auto text-center"
+        >
+          Ver no Google Maps
+        </a>
       </motion.div>
     </section>
   );
