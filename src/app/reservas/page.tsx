@@ -1,15 +1,67 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Calendar, Users, ArrowRight, MessageCircle } from "lucide-react";
+import { Calendar, Users, ArrowRight, MessageCircle, Loader2, CheckCircle, X } from "lucide-react";
 import restaurantData from "@/data/restaurant.json";
 
 export default function ReservasPage() {
+  const [formData, setFormData] = useState({
+    nome: "",
+    contacto: "",
+    data: "",
+    hora: "20:00",
+    pessoas: "",
+    mensagem: ""
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.nome.trim()) newErrors.nome = "Nome é obrigatório";
+    if (!formData.data.trim()) newErrors.data = "Data é obrigatória";
+    if (!formData.hora.trim()) newErrors.hora = "Hora é obrigatória";
+    if (!formData.pessoas || parseInt(formData.pessoas) < 1 || parseInt(formData.pessoas) > 20) {
+      newErrors.pessoas = "Número de pessoas inválido (1-20)";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    const webhookUrl = process.env.NEXT_PUBLIC_N8N_RESERVAS_WEBHOOK_URL || "https://SEU-N8N.app/webhook/reserva-la-signora";
+
+    try {
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setIsSuccess(true);
+        setFormData({ nome: "", contacto: "", data: "", hora: "20:00", pessoas: "", mensagem: "" });
+      } else {
+        alert("Ocorreu um erro ao enviar a reserva. Por favor, tente novamente.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Erro de ligação ao tentar enviar a reserva. Verifique a sua internet e tente novamente.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-[var(--color-boutique-bg)] text-[var(--color-boutique-text)] font-sans">
       <Navbar />
@@ -81,7 +133,7 @@ export default function ReservasPage() {
           </div>
         </motion.div>
 
-        {/* Group Events Section */}
+        {/* Reservation Form Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -92,57 +144,125 @@ export default function ReservasPage() {
             <Users className="w-32 h-32" />
           </div>
           
-          <h2 className="text-3xl font-playfair mb-6">Jantares de Grupo & Eventos</h2>
+          <h2 className="text-3xl font-playfair mb-6">Reservar Mesa</h2>
           <p className="text-sm font-light leading-relaxed opacity-70 mb-10">
-            Privatize o nosso espaço ou reserve uma mesa longa para celebrações corporativas, aniversários e datas especiais. Desenhamos menus sob medida para o seu grupo (mínimo 10 pessoas).
+            Preencha os detalhes abaixo para garantir o seu lugar. Ser-lhe-á enviada uma confirmação assim que o nosso staff validar a sua reserva.
           </p>
 
-          <form className="space-y-6 relative z-10">
+          <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
             <div>
-              <label className="block text-xs uppercase tracking-widest opacity-70 mb-2">Nome Completo</label>
+              <label className="block text-xs uppercase tracking-widest opacity-70 mb-2">Nome Completo *</label>
               <input 
                 type="text" 
-                className="w-full bg-[var(--color-boutique-bg)] border border-[var(--color-boutique-ink)]/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-boutique-accent)] transition-colors text-[var(--color-boutique-ink)]"
+                value={formData.nome}
+                onChange={(e) => setFormData({...formData, nome: e.target.value})}
+                className={`w-full bg-[var(--color-boutique-bg)] border ${errors.nome ? 'border-red-500' : 'border-[var(--color-boutique-ink)]/10'} rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-boutique-accent)] transition-colors text-[var(--color-boutique-ink)]`}
                 placeholder="Ex: João Silva"
               />
+              {errors.nome && <span className="text-red-500 text-xs mt-1 block">{errors.nome}</span>}
             </div>
-            <div className="grid grid-cols-2 gap-4">
+
+            <div>
+              <label className="block text-xs uppercase tracking-widest opacity-70 mb-2">Contacto / Telefone</label>
+              <input 
+                type="tel" 
+                value={formData.contacto}
+                onChange={(e) => setFormData({...formData, contacto: e.target.value})}
+                className="w-full bg-[var(--color-boutique-bg)] border border-[var(--color-boutique-ink)]/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-boutique-accent)] transition-colors text-[var(--color-boutique-ink)]"
+                placeholder="+351 9XX XXX XXX"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs uppercase tracking-widest opacity-70 mb-2">Data Pretendida</label>
+                <label className="block text-xs uppercase tracking-widest opacity-70 mb-2">Data *</label>
                 <input 
                   type="date" 
-                  className="w-full bg-[var(--color-boutique-bg)] border border-[var(--color-boutique-ink)]/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-boutique-accent)] transition-colors text-[var(--color-boutique-ink)]/70"
+                  value={formData.data}
+                  onChange={(e) => setFormData({...formData, data: e.target.value})}
+                  className={`w-full bg-[var(--color-boutique-bg)] border ${errors.data ? 'border-red-500' : 'border-[var(--color-boutique-ink)]/10'} rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-boutique-accent)] transition-colors text-[var(--color-boutique-ink)]`}
                 />
+                {errors.data && <span className="text-red-500 text-xs mt-1 block">{errors.data}</span>}
               </div>
               <div>
-                <label className="block text-xs uppercase tracking-widest opacity-70 mb-2">Nº Pessoas</label>
+                <label className="block text-xs uppercase tracking-widest opacity-70 mb-2">Hora *</label>
+                <input 
+                  type="time" 
+                  value={formData.hora}
+                  onChange={(e) => setFormData({...formData, hora: e.target.value})}
+                  className={`w-full bg-[var(--color-boutique-bg)] border ${errors.hora ? 'border-red-500' : 'border-[var(--color-boutique-ink)]/10'} rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-boutique-accent)] transition-colors text-[var(--color-boutique-ink)]`}
+                />
+                {errors.hora && <span className="text-red-500 text-xs mt-1 block">{errors.hora}</span>}
+              </div>
+              <div>
+                <label className="block text-xs uppercase tracking-widest opacity-70 mb-2">Nº Pessoas *</label>
                 <input 
                   type="number" 
-                  min="10"
-                  className="w-full bg-[var(--color-boutique-bg)] border border-[var(--color-boutique-ink)]/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-boutique-accent)] transition-colors text-[var(--color-boutique-ink)]"
-                  placeholder="Ex: 15"
+                  min="1"
+                  max="20"
+                  value={formData.pessoas}
+                  onChange={(e) => setFormData({...formData, pessoas: e.target.value})}
+                  className={`w-full bg-[var(--color-boutique-bg)] border ${errors.pessoas ? 'border-red-500' : 'border-[var(--color-boutique-ink)]/10'} rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-boutique-accent)] transition-colors text-[var(--color-boutique-ink)]`}
+                  placeholder="Ex: 2"
                 />
+                {errors.pessoas && <span className="text-red-500 text-xs mt-1 block">{errors.pessoas}</span>}
               </div>
             </div>
+
             <div>
-              <label className="block text-xs uppercase tracking-widest opacity-70 mb-2">Mensagem</label>
+              <label className="block text-xs uppercase tracking-widest opacity-70 mb-2">Mensagem / Observações</label>
               <textarea 
                 rows={3}
+                value={formData.mensagem}
+                onChange={(e) => setFormData({...formData, mensagem: e.target.value})}
                 className="w-full bg-[var(--color-boutique-bg)] border border-[var(--color-boutique-ink)]/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-[var(--color-boutique-accent)] transition-colors text-[var(--color-boutique-ink)] resize-none"
-                placeholder="Fale-nos sobre o evento..."
+                placeholder="Ocasião especial, alergias, preferências..."
               />
             </div>
             <button
-              type="button"
-              className="w-full border border-[var(--color-boutique-accent)] text-[var(--color-boutique-accent)] hover:bg-[var(--color-boutique-accent)] hover:text-[var(--color-boutique-ink)] font-medium px-8 py-4 rounded-sm uppercase tracking-widest text-sm transition-colors duration-300 flex items-center justify-center gap-2"
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-[var(--color-boutique-accent)] text-white hover:bg-[var(--color-boutique-ink)] font-medium px-8 py-4 rounded-sm uppercase tracking-widest text-sm transition-colors duration-300 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Solicitar Orçamento
-              <ArrowRight className="w-4 h-4" />
+              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Reservar Mesa"}
             </button>
           </form>
 
         </motion.div>
       </div>
+
+      {/* Success Modal */}
+      <AnimatePresence>
+        {isSuccess && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              className="bg-[var(--color-boutique-bg)] w-full max-w-md p-8 rounded-sm shadow-2xl text-center border border-[var(--color-boutique-accent)]/20"
+            >
+              <div className="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-6">
+                <CheckCircle className="w-10 h-10 text-green-600" />
+              </div>
+              <h2 className="text-3xl font-playfair mb-2">Reserva Recebida!</h2>
+              <p className="font-light opacity-80 mb-8">
+                Entraremos em contacto para confirmar a sua reserva.
+              </p>
+
+              <button
+                onClick={() => setIsSuccess(false)}
+                className="w-full py-4 bg-[var(--color-boutique-accent)] text-white hover:bg-[var(--color-boutique-ink)] transition-colors duration-300 rounded-sm text-sm uppercase tracking-widest font-medium"
+              >
+                Fechar
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Footer />
     </main>
