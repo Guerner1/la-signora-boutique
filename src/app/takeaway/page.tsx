@@ -301,7 +301,7 @@ export default function TakeAwayPage() {
               bg-[var(--color-boutique-bg)] lg:bg-transparent 
               p-6 lg:p-0
               rounded-t-2xl lg:rounded-none
-              transition-transform duration-300 lg:transform-none lg:sticky lg:top-32
+              transition-transform duration-300 lg:transform-none
               shadow-2xl lg:shadow-none
               ${isCartOpenMobile ? "translate-y-0" : "translate-y-full"}
             `}>
@@ -327,7 +327,7 @@ export default function TakeAwayPage() {
                 <div className="space-y-6">
                   {!isCheckoutMode ? (
                     <>
-                      <div className="max-h-[40vh] lg:max-h-[50vh] overflow-y-auto pr-2 space-y-4">
+                      <div className="max-h-[65vh] lg:max-h-[75vh] overflow-y-auto pr-2 space-y-4">
                         {cart.map(item => (
                           <div key={item.id} className="flex justify-between items-start gap-4 text-sm">
                             <div className="flex-grow">

@@ -11,7 +11,7 @@ export default function DoveSiamo() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.4 }}
         viewport={{ once: true, margin: "-100px" }}
         className="text-center mb-16"
       >
@@ -32,7 +32,7 @@ export default function DoveSiamo() {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 0.5 }}
         viewport={{ once: true }}
         className="w-full h-[300px] md:h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-2xl border-4 border-white/10"
       >
@@ -52,7 +52,7 @@ export default function DoveSiamo() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
         viewport={{ once: true }}
         className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6"
       >

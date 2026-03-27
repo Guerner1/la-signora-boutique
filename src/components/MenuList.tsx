@@ -67,7 +67,7 @@ export default function MenuList() {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
+                transition={{ duration: 0.35, delay: index * 0.08 }}
                 className="group relative"
               >
                 <div className="flex justify-between items-baseline mb-3 gap-6">
@@ -85,7 +85,7 @@ export default function MenuList() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={{ duration: 0.35, delay: 0.3 }}
               className="pt-10 flex justify-center lg:justify-start"
             >
               <Link 
@@ -102,7 +102,7 @@ export default function MenuList() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="lg:col-span-5 relative w-full h-[600px] lg:h-[800px]"
           >
             <Image
